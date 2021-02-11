@@ -2,6 +2,7 @@ from sarsa import Sarsa
 from qlearning import Qlearning
 from expected_sarsa import ExpectedSarsa
 from environments import *
+from dynaq_stoch import DynaQStochastic
 import matplotlib.pyplot as plt
 
 alpha = 0.5
@@ -178,3 +179,54 @@ plt.title("Q-Learning")
 plt.savefig('Q-Learning.png', bbox_inches='tight', )
 pass 
 
+##########################################################################
+# CS748 - Quiz 4 - Stochastic DynaQ  
+##########################################################################
+swgk = StochaticWindGridWorldWithKingsMoves()
+
+sarsa_total_swgk = np.zeros(num_episodes, dtype=int) 
+qlearning_total_swgk = np.zeros(num_episodes, dtype=int) 
+dynaq2_total_swgk = np.zeros(num_episodes, dtype=int) 
+dynaq5_total_swgk = np.zeros(num_episodes, dtype=int) 
+dynaq20_total_swgk = np.zeros(num_episodes, dtype=int) 
+expected_sarsa_total_swgk = np.zeros(num_episodes, dtype=int) 
+
+for seed in seeds:
+    sarsa = Sarsa(swgk, swgk.num_states, swgk.num_actions, alpha, epsilon, gamma, swgk.get_start_state(), swgk.get_end_state(), seed, num_episodes)
+    sarsa.simulate()
+    sarsa_total_swgk += sarsa.cummulative_timesteps_for_episode
+
+    qlearning = Qlearning(swgk, swgk.num_states, swgk.num_actions, alpha, epsilon, gamma, swgk.get_start_state(), swgk.get_end_state(), seed, num_episodes)
+    qlearning.simulate()
+    qlearning_total_swgk += qlearning.cummulative_timesteps_for_episode
+
+    dynaq2 = DynaQStochastic(swgk, swgk.num_states, swgk.num_actions, alpha, epsilon, gamma, 2, swgk.get_start_state(), swgk.get_end_state(), seed, num_episodes)
+    dynaq2.simulate()
+    dynaq2_total_swgk += dynaq2.cummulative_timesteps_for_episode
+
+    dynaq5 = DynaQStochastic(swgk, swgk.num_states, swgk.num_actions, alpha, epsilon, gamma, 5, swgk.get_start_state(), swgk.get_end_state(), seed, num_episodes)
+    dynaq5.simulate()
+    dynaq5_total_swgk += dynaq5.cummulative_timesteps_for_episode
+
+    dynaq20 = DynaQStochastic(swgk, swgk.num_states, swgk.num_actions, alpha, epsilon, gamma, 20, swgk.get_start_state(), swgk.get_end_state(), seed, num_episodes)
+    dynaq20.simulate()
+    dynaq20_total_swgk += dynaq20.cummulative_timesteps_for_episode
+
+    expected_sarsa = ExpectedSarsa(swgk, swgk.num_states, swgk.num_actions, alpha, epsilon, gamma, swgk.get_start_state(), swgk.get_end_state(), seed, num_episodes)
+    expected_sarsa.simulate()
+    expected_sarsa_total_swgk += expected_sarsa.cummulative_timesteps_for_episode
+
+plt.figure(7)
+plt.plot(sarsa_total_swgk / num_seeds, np.array(range(sarsa.num_episodes)), label='Sarsa')
+plt.plot(qlearning_total_swgk  / num_seeds, np.array(range(qlearning.num_episodes)), label='Q-learning')
+plt.plot(expected_sarsa_total_swgk  / num_seeds, np.array(range(expected_sarsa.num_episodes)), label='Expected Sarsa')
+plt.plot(dynaq2_total_swgk  / num_seeds, np.array(range(dynaq2.num_episodes)), label='DynaQ n=2')
+plt.plot(dynaq5_total_swgk  / num_seeds, np.array(range(dynaq5.num_episodes)), label='DynaQ n=5')
+plt.plot(dynaq20_total_swgk  / num_seeds, np.array(range(dynaq20.num_episodes)), label='DynaQ n=20')
+
+plt.plot([], [], ' ', label='α=' + str(alpha) + ',ε=' + str(epsilon) + ',γ=' + str(gamma))
+plt.legend()
+plt.xlabel("Timesteps")
+plt.ylabel("Episodes")
+plt.title("Stochastic Windy Gridworld with Kings moves")
+plt.savefig('Stochastic Windy Gridworld with Kings move with dynaq.png', bbox_inches='tight', )
