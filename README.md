@@ -1,4 +1,4 @@
-# CS747-Reinforcement-Learning and CS-748 Advanced RL
+# CS747-Reinforcement-Learning and CS748-Advanced RL
 These are my submissions for programming assignments for IIT Bombay Course [CS747](https://www.cse.iitb.ac.in/~shivaram/teaching/old/cs747-a2020/index.html) - Reinforcement Learning and Course [CS748](https://www.cse.iitb.ac.in/~shivaram/teaching/cs748-s2021/index.html) - Advanced Reinforcement Learning 
 
 ## Sarsa, Expected Sarsa, Q learning and Stochastic DynaQ in Windy Gridworld
