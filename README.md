@@ -23,9 +23,7 @@ Implemments several RL algorithms in windy gridworld.
 - `multirun.py` has logic to run above algorithms on different gridworlds and generate below graphs
 
 ### Important observations
-- Expected Sarsa is most affected by stochastic noise as it takes almost double times steps for Type 4 grid world (stochastic noise in all columns). This might be because of Expected Sarsa’s stochastic (wighted) approach to calculate target value: 
- $$Target = r_t+\gamma\sum_{a\in A}\color{red}{\pi^t(s^{t+1},a)}\hat{Q}(s^{t+1},a)$$
- Other algorithms does not seem to get affected as much as Expected Sarsa dur to stochastic noise. Thus Expected Sarsa is worst for stochastic environments.
+- Expected Sarsa is most affected by stochastic noise as it takes almost double times steps for Type 4 grid world (stochastic noise in all columns). This might be because of Expected Sarsa’s stochastic (wighted) approach to calculate target value.  Other algorithms does not seem to get affected as much as Expected Sarsa dur to stochastic noise. Thus Expected Sarsa is worst for stochastic environments.
 - Surprisingly, Sarsa and Q Learning performs better with stochastic noise only in windy columns (with Kings move) than without any stochastic noise (with no Kings move). Thus, Kings moves help these two algorithms overcome performance impact of stochastic noise in windy columns. Expected Sarsa continues to perform poor with stochastic noise even in just windy columns (possibly due to same reason explained in above point).
 
 ### Graphs
